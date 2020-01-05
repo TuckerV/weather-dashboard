@@ -1,0 +1,21 @@
+/* CSS SHEET */
+
+header {
+    height: 100px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    width: 100%;
+}
+
+.columns {
+    /* height: 100px; */
+    height: auto;
+}
+
+#cityLabel {
+    font-weight: bold;
+}
+
+.btn {
+    margin-top: 10px;
+}
