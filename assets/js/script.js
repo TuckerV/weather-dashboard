@@ -3,6 +3,10 @@ var queryUrlBase = 'http://api.openweathermap.org/data/2.5/weather?q=';
 var fiveDayUrlBase = 'http://api.openweathermap.org/data/2.5/forecast?q='
 var apikey = '&appid=0cf78313188ed7c923c873cd418f1e41';
 
+var recentSearchArray = JSON.parse(localStorage.getItem("recentSearchArray")) || [];
+var mostRecentSearch = JSON.parse(localStorage.getItem("mostRecentSearch"));
+var recentSearchBtns = $(".recentSearch");
+
 function currentWeather(cWU){
     $.ajax({
         url: cWU,
@@ -29,6 +33,13 @@ function emptyCards(){
     for (var i = 0; i<5; i++){
         $("#card"+i).empty();
     }
+}
+function renderSearchedCities(){
+    $.each(recentSearchArray, function(index, object){
+        var newSearchBtn = $('<li class=".recentSearch">');
+        newSearchBtn.text(object.city);
+        recentSearchBtns.append(newSearchBtn);
+    })
 }
 function fiveDayWeather(fDWU){
     emptyCards();
@@ -78,18 +89,46 @@ function setDates(){
 setDates();
 
 $(".btn").on("click", function(event){
-    alert("Button Pressed");
+    // alert("Button Pressed");
 
     event.preventDefault();
     var city = $('#citySearched').val().trim();
     console.log(city);
 
     var currentWeatherUrl = queryUrlBase + city + "&units=imperial" + apikey;
-    console.log(currentWeatherUrl);
+    // console.log(currentWeatherUrl);
     currentWeather(currentWeatherUrl);
 
     var fiveDayWeatherUrl = fiveDayUrlBase + city + "&units=imperial" + apikey;
-    console.log(fiveDayWeatherUrl);
+    // console.log(fiveDayWeatherUrl);
     fiveDayWeather(fiveDayWeatherUrl);
 
+    var cityJSON = {
+        city: city
+    }
+
+    var newSearchBtn = $('<li class=".recentSearch">');
+    newSearchBtn.text(city);
+    recentSearchBtns.append(newSearchBtn);
+
+    recentSearchArray.push(cityJSON);
+    localStorage.setItem('recentSearchArray', JSON.stringify(recentSearchArray));
+    localStorage.setItem('mostRecentSearch', JSON.stringify(city));
 })
+
+recentSearchBtns.on("click", function(e) {
+    event.preventDefault();
+    clickedRecent = $(e.target).text();
+    console.log(clickedRecent);
+    $('#citySearched').val('');
+
+    var currentWeatherUrl = queryUrlBase + clickedRecent + "&units=imperial" + apikey;
+    currentWeather(currentWeatherUrl);
+
+    var fiveDayWeatherUrl = fiveDayUrlBase + clickedRecent + "&units=imperial" + apikey;
+    fiveDayWeather(fiveDayWeatherUrl);
+    localStorage.setItem('mostRecentSearch', JSON.stringify(clickedRecent))
+
+})
+
+renderSearchedCities();
