@@ -25,8 +25,13 @@ function currentWeather(cWU){
         })
     })
 };
-
+function emptyCards(){
+    for (var i = 0; i<5; i++){
+        $("#card"+i).empty();
+    }
+}
 function fiveDayWeather(fDWU){
+    emptyCards();
     $.ajax({
         url: fDWU,
         method: "GET"
@@ -34,6 +39,24 @@ function fiveDayWeather(fDWU){
         console.log("Five Day Forecast: ")
         console.log(responseFive);
         $("#currentWeatherCity").text(responseFive.city.name);
+        var j = 0;
+        for (var i = 0; i < 39; i+=8) {
+            
+            var forecastNewBody = $(`<div class="card-body${j}"></div>`);
+            var forecastNewIcon = $(`<img src="" alt="">`);
+            var forecastNewTemp = $(`<p class="card-text"></p>`);
+            var forecastNewHumid = $(`<p class="card-text"></p>`);
+
+            forecastNewIcon.attr('src', `http://openweathermap.org/img/w/${responseFive.list[i].weather[0].icon}.png`);
+            forecastNewTemp.text('Temperature: ' + responseFive.list[i].main.temp + ' F');
+            forecastNewHumid.text('Humidity: '+ responseFive.list[i].main.humidity + '%');
+            $("#card"+j).append(forecastNewBody);
+            $(".card-body"+j).append(forecastNewIcon);
+            $(".card-body"+j).append(forecastNewTemp);
+            $(".card-body"+j).append(forecastNewHumid);
+            
+            j++;
+        }
     })
 };
 
@@ -53,6 +76,7 @@ function setDates(){
 }
 
 setDates();
+
 $(".btn").on("click", function(event){
     alert("Button Pressed");
 
