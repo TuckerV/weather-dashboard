@@ -10,6 +10,19 @@ function currentWeather(cWU){
     }).then(function(response){
         console.log("Current Weather: ")
         console.log(response);
+        $("#mainIcon").attr('src', `http://openweathermap.org/img/w/${response.weather[0].icon}.png`)
+        $("#mainIcon").attr('alt', `${response.weather[0].description}`)
+        $("#currentTemp").text("Temperature: " + Math.round(response.main.temp) + " F");
+        $("#currentHumid").text("Humidity: " + response.main.humidity + "%");
+        $("#currentWind").text("Wind Speed: " + response.wind.speed + "MPH");
+        
+        var queryUrlUv = `http://api.openweathermap.org/data/2.5/uvi/forecast?`+ `appid=0cf78313188ed7c923c873cd418f1e41` + `&lat=${response.coord.lat}&lon=${response.coord.lon}&cnt=1`
+        $.ajax({
+            url: queryUrlUv,
+            method: "GET"
+        }).then(function(responseUv){
+            $("#currentUv").text("UV index: " + responseUv[0].value)
+        })
     })
 };
 
