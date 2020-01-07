@@ -1,6 +1,6 @@
 // JAVASCRIPT
-var queryUrlBase = 'http://api.openweathermap.org/data/2.5/weather?q=';
-var fiveDayUrlBase = 'http://api.openweathermap.org/data/2.5/forecast?q='
+var queryUrlBase = 'https://api.openweathermap.org/data/2.5/weather?q=';
+var fiveDayUrlBase = 'https://api.openweathermap.org/data/2.5/forecast?q='
 var apikey = '&appid=0cf78313188ed7c923c873cd418f1e41';
 
 var recentSearchArray = JSON.parse(localStorage.getItem("recentSearchArray")) || [];
@@ -14,13 +14,13 @@ function currentWeather(cWU){
     }).then(function(response){
         console.log("Current Weather: ")
         console.log(response);
-        $("#mainIcon").attr('src', `http://openweathermap.org/img/w/${response.weather[0].icon}.png`)
+        $("#mainIcon").attr('src', `https://openweathermap.org/img/w/${response.weather[0].icon}.png`)
         $("#mainIcon").attr('alt', `${response.weather[0].description}`)
         $("#currentTemp").text("Temperature: " + Math.round(response.main.temp) + " F");
         $("#currentHumid").text("Humidity: " + response.main.humidity + "%");
         $("#currentWind").text("Wind Speed: " + response.wind.speed + "MPH");
         
-        var queryUrlUv = `http://api.openweathermap.org/data/2.5/uvi/forecast?`+ `appid=0cf78313188ed7c923c873cd418f1e41` + `&lat=${response.coord.lat}&lon=${response.coord.lon}&cnt=1`
+        var queryUrlUv = `https://api.openweathermap.org/data/2.5/uvi/forecast?`+ `appid=0cf78313188ed7c923c873cd418f1e41` + `&lat=${response.coord.lat}&lon=${response.coord.lon}&cnt=1`
         $.ajax({
             url: queryUrlUv,
             method: "GET"
@@ -58,7 +58,7 @@ function fiveDayWeather(fDWU){
             var forecastNewTemp = $(`<p class="card-text"></p>`);
             var forecastNewHumid = $(`<p class="card-text"></p>`);
 
-            forecastNewIcon.attr('src', `http://openweathermap.org/img/w/${responseFive.list[i].weather[0].icon}.png`);
+            forecastNewIcon.attr('src', `https://openweathermap.org/img/w/${responseFive.list[i].weather[0].icon}.png`);
             forecastNewTemp.text('Temperature: ' + responseFive.list[i].main.temp + ' F');
             forecastNewHumid.text('Humidity: '+ responseFive.list[i].main.humidity + '%');
             $("#card"+j).append(forecastNewBody);
