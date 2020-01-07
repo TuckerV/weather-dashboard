@@ -20,9 +20,26 @@ function fiveDayWeather(fDWU){
     }).then(function(responseFive){
         console.log("Five Day Forecast: ")
         console.log(responseFive);
+        $("#currentWeatherCity").text(responseFive.city.name);
     })
 };
 
+function setDates(){
+    var d = new Date();
+
+    var month = d.getMonth()+1;
+    var day = d.getDate();
+
+    var output = (month<10 ? '0' : '') + month  + '/' + (day<10 ? '0' : '') + day + '/' + d.getFullYear();
+    $("#todaysDate").text(output);
+    for (var i =0; i<5; i++){
+        day++;
+        output = (month<10 ? '0' : '') + month  + '/' + (day<10 ? '0' : '') + day + '/' + d.getFullYear();
+        $(".date" + i).text(output);
+    }
+}
+
+setDates();
 $(".btn").on("click", function(event){
     alert("Button Pressed");
 

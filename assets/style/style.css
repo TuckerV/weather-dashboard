@@ -1,9 +1,17 @@
 /* CSS SHEET */
 
-header {
+.topHeader {
     height: 100px;
     padding-top: 20px;
     padding-bottom: 15px;
+    width: 100%;
+}
+
+.secondHeader {
+    height: 100px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+    padding-left: 2%;
     width: 100%;
 }
 
@@ -18,4 +26,12 @@ header {
 
 .btn {
     margin-top: 10px;
+}
+
+.card {
+    margin: 0 1%;
+}
+
+.card-title {
+    text-align: center;
 }
